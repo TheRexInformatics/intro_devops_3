@@ -1,0 +1,33 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: pedidos-service
+
+  datasource:
+    url: ${NEON_PEDIDOS_URL:jdbc:postgresql://localhost:5432/smartlogix_pedidos}
+    username: ${NEON_PEDIDOS_USER:postgres}
+    password: ${NEON_PEDIDOS_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+inventario:
+  service:
+    url: ${INVENTARIO_SERVICE_URL:http://localhost:8081}
+
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000

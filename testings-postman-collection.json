@@ -1,0 +1,336 @@
+{
+  "info": {
+    "_postman_id": "testing-feature-collection",
+    "name": "Microservices Testing - Feature/Testings Branch",
+    "description": "Postman collection for testing all microservices in feature/testings branch with JWT authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Login - Usuario Administrador",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8085/auth/login",
+              "host": ["localhost"],
+              "port": "8085",
+              "path": ["auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{
+  \"username\": \"diego\",
+  \"password\": \"admin123\"
+}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Usuario Cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8085/auth/login",
+              "host": ["localhost"],
+              "port": "8085",
+              "path": ["auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{
+  \"username\": \"cliente\",
+  \"password\": \"1234\"
+}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Fallo (Credenciales Incorrectas)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8085/auth/login",
+              "host": ["localhost"],
+              "port": "8085",
+              "path": ["auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{
+  \"username\": \"wronguser\",
+  \"password\": \"wrongpass\"
+}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inventario",
+      "item": [
+        {
+          "name": "Listar Productos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/api/productos",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "productos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/api/productos/{id}",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "productos", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/api/productos",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "productos"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{
+  \"nombre\": \"Nuevo Producto Test\",
+  \"precio\": 99.99,
+  \"cantidad\": 50
+}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pedidos",
+      "item": [
+        {
+          "name": "Listar Pedidos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8082/api/pedidos",
+              "host": ["localhost"],
+              "port": "8082",
+              "path": ["api", "pedidos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Pedido",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8082/api/pedidos/{id}",
+              "host": ["localhost"],
+              "port": "8082",
+              "path": ["api", "pedidos", "{{pedidoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Pedido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8082/api/pedidos",
+              "host": ["localhost"],
+              "port": "8082",
+              "path": ["api", "pedidos"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{
+  \"productoId\": 1,
+  \"cantidad\": 2,
+  \"precioUnitario\": 50.0
+}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Envíos",
+      "item": [
+        {
+          "name": "Listar Envíos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8083/api/envios",
+              "host": ["localhost"],
+              "port": "8083",
+              "path": ["api", "envios"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Backend para Front-end (BFF)",
+      "item": [
+        {
+          "name": "Obtener KPIs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8084/api/bff/kpis",
+              "host": ["localhost"],
+              "port": "8084",
+              "path": ["api", "bff", "kpis"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8084/api/bff/dashboard",
+              "host": ["localhost"],
+              "port": "8084",
+              "path": ["api", "bff", "dashboard"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "API Gateway",
+      "item": [
+        {
+          "name": "Rutas del Gateway",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/routes",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["routes"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "productoId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "pedidoId",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}

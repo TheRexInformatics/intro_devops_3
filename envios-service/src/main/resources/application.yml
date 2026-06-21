@@ -1,0 +1,25 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: envios-service
+
+  datasource:
+    # Configuración para Neon con respaldo local
+    url: ${NEON_ENVIOS_URL:jdbc:postgresql://db-envios:5432/smartlogix_envios}
+    username: ${NEON_ENVIOS_USER:user_logix}
+    password: ${NEON_ENVIOS_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    com.smartlogix.envios: DEBUG

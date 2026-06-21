@@ -1,0 +1,24 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: auth-service
+
+  datasource:
+    url: ${NEON_AUTH_URL:jdbc:postgresql://localhost:5432/smartlogix_auth}
+    username: ${NEON_AUTH_USER:postgres}
+    password: ${NEON_AUTH_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  secret: ${JWT_SECRET:SmartLogixSecretKeyUltraSegura2026ParaDesarrolloLocal}
+  expiration: ${JWT_EXPIRATION:3600000}

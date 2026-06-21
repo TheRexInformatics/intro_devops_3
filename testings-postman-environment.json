@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "Testing Environment - JWT Configuration",
+    "description": "Environment configuration for testing microservices with JWT authentication",
+    "values": [
+      {
+        "key": "adminToken",
+        "value": "",
+        "type": "string",
+        "enabled": false
+      },
+      {
+        "key": "clientToken", 
+        "value": "",
+        "type": "string",
+        "enabled": false
+      },
+      {
+        "key": "baseUrlAuthService",
+        "value": "http://localhost:8085",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "baseUrlBffService",
+        "value": "http://localhost:8084",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "baseUrlInventarioService",
+        "value": "http://localhost:8081",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "baseUrlPedidosService",
+        "value": "http://localhost:8082",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "baseUrlEnviosService",
+        "value": "http://localhost:8083",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "baseUrlApiGateway",
+        "value": "http://localhost:8080",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "adminUsername",
+        "value": "diego",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "adminPassword",
+        "value": "admin123",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "clientUsername",
+        "value": "cliente",
+        "type": "string",
+        "enabled": true
+      },
+      {
+        "key": "clientPassword",
+        "value": "1234",
+        "type": "string",
+        "enabled": true
+      }
+    ]
+  }
+}

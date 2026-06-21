@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: inventario-service
+
+  datasource:
+    url: ${NEON_INVENTARIO_URL:jdbc:postgresql://localhost:5432/smartlogix_inventario}
+    username: ${NEON_INVENTARIO_USER:postgres}
+    password: ${NEON_INVENTARIO_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    com.smartlogix.inventario: DEBUG

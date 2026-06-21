@@ -1,0 +1,17 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: bff-service
+
+services:
+  pedidos:
+    url: ${PEDIDOS_SERVICE_URL:http://localhost:8082}
+  inventario:
+    url: ${INVENTARIO_SERVICE_URL:http://localhost:8081}
+  envios:
+    url: ${ENVIOS_SERVICE_URL:http://localhost:8083}
+
+bff:
+  stock-alert-threshold: ${STOCK_ALERT_THRESHOLD:10}

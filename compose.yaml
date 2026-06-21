@@ -1,0 +1,102 @@
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      INVENTARIO_SERVICE_URL: http://inventario-service:8081
+      PEDIDOS_SERVICE_URL: http://pedidos-service:8082
+      ENVIOS_SERVICE_URL: http://envios-service:8083
+      BFF_SERVICE_URL: http://bff-service:8084
+      AUTH_SERVICE_URL: http://auth-service:8085
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-3600000}
+    depends_on:
+      - auth-service
+      - bff-service
+      - inventario-service
+      - pedidos-service
+      - envios-service
+    networks:
+      - smartlogix-network
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8085:8085"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-3600000}
+      NEON_AUTH_URL: ${NEON_AUTH_URL}
+      NEON_AUTH_USER: ${NEON_AUTH_USER}
+      NEON_AUTH_PASSWORD: ${NEON_AUTH_PASSWORD}
+    networks:
+      - smartlogix-network
+
+  bff-service:
+    build:
+      context: ./bff-service
+    container_name: bff-service
+    ports:
+      - "8084:8084"
+    environment:
+      PEDIDOS_SERVICE_URL: http://pedidos-service:8082
+      INVENTARIO_SERVICE_URL: http://inventario-service:8081
+      ENVIOS_SERVICE_URL: http://envios-service:8083
+      STOCK_ALERT_THRESHOLD: ${STOCK_ALERT_THRESHOLD:-10}
+    depends_on:
+      - inventario-service
+      - pedidos-service
+      - envios-service
+    networks:
+      - smartlogix-network
+
+  inventario-service:
+    build:
+      context: ./inventario-service
+    container_name: inventario-service
+    ports:
+      - "8081:8081"
+    environment:
+      NEON_INVENTARIO_URL: ${NEON_INVENTARIO_URL}
+      NEON_INVENTARIO_USER: ${NEON_INVENTARIO_USER}
+      NEON_INVENTARIO_PASSWORD: ${NEON_INVENTARIO_PASSWORD}
+    networks:
+      - smartlogix-network
+
+  pedidos-service:
+    build:
+      context: ./pedidos-service
+    container_name: pedidos-service
+    ports:
+      - "8082:8082"
+    environment:
+      NEON_PEDIDOS_URL: ${NEON_PEDIDOS_URL}
+      NEON_PEDIDOS_USER: ${NEON_PEDIDOS_USER}
+      NEON_PEDIDOS_PASSWORD: ${NEON_PEDIDOS_PASSWORD}
+      INVENTARIO_SERVICE_URL: http://inventario-service:8081
+    depends_on:
+      - inventario-service
+    networks:
+      - smartlogix-network
+
+  envios-service:
+    build:
+      context: ./envios-service
+    container_name: envios-service
+    ports:
+      - "8083:8083"
+    environment:
+      NEON_ENVIOS_URL: ${NEON_ENVIOS_URL}
+      NEON_ENVIOS_USER: ${NEON_ENVIOS_USER}
+      NEON_ENVIOS_PASSWORD: ${NEON_ENVIOS_PASSWORD}
+    networks:
+      - smartlogix-network
+
+networks:
+  smartlogix-network:
+    driver: bridge

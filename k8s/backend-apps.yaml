@@ -1,0 +1,198 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: smartlogix
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+      - name: auth-service
+        image: 908560159565.dkr.ecr.us-east-1.amazonaws.com/auth-service:latest
+        ports:
+        - containerPort: 8085
+        envFrom:
+        - configMapRef:
+            name: smartlogix-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: smartlogix
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8085
+    targetPort: 8085
+  selector:
+    app: auth-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventario-service
+  namespace: smartlogix
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inventario-service
+  template:
+    metadata:
+      labels:
+        app: inventario-service
+    spec:
+      containers:
+      - name: inventario-service
+        image: 908560159565.dkr.ecr.us-east-1.amazonaws.com/inventario-service:latest
+        ports:
+        - containerPort: 8081
+        envFrom:
+        - configMapRef:
+            name: smartlogix-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventario-service
+  namespace: smartlogix
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8081
+    targetPort: 8081
+  selector:
+    app: inventario-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedidos-service
+  namespace: smartlogix
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pedidos-service
+  template:
+    metadata:
+      labels:
+        app: pedidos-service
+    spec:
+      containers:
+      - name: pedidos-service
+        image: 908560159565.dkr.ecr.us-east-1.amazonaws.com/pedidos-service:latest
+        ports:
+        - containerPort: 8082
+        env:
+        - name: INVENTARIO_SERVICE_URL
+          value: "http://inventario-service:8081"
+        envFrom:
+        - configMapRef:
+            name: smartlogix-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pedidos-service
+  namespace: smartlogix
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8082
+    targetPort: 8082
+  selector:
+    app: pedidos-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envios-service
+  namespace: smartlogix
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: envios-service
+  template:
+    metadata:
+      labels:
+        app: envios-service
+    spec:
+      containers:
+      - name: envios-service
+        image: 908560159565.dkr.ecr.us-east-1.amazonaws.com/envios-service:latest
+        ports:
+        - containerPort: 8083
+        envFrom:
+        - configMapRef:
+            name: smartlogix-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: envios-service
+  namespace: smartlogix
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8083
+    targetPort: 8083
+  selector:
+    app: envios-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-service
+  namespace: smartlogix
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bff-service
+  template:
+    metadata:
+      labels:
+        app: bff-service
+    spec:
+      containers:
+      - name: bff-service
+        image: 908560159565.dkr.ecr.us-east-1.amazonaws.com/bff-service:latest
+        ports:
+        - containerPort: 8084
+        env:
+        - name: PEDIDOS_SERVICE_URL
+          value: "http://pedidos-service:8082"
+        - name: INVENTARIO_SERVICE_URL
+          value: "http://inventario-service:8081"
+        - name: ENVIOS_SERVICE_URL
+          value: "http://envios-service:8083"
+        envFrom:
+        - configMapRef:
+            name: smartlogix-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff-service
+  namespace: smartlogix
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8084
+    targetPort: 8084
+  selector:
+    app: bff-service

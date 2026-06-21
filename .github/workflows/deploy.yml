@@ -1,0 +1,79 @@
+name: Deploy SmartLogix to AWS EKS
+
+on:
+  push:
+    branches:
+      - develop  # Se ejecuta automáticamente al hacer push a la rama develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Clonar el código fuente
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Configurar las credenciales dinámicas de AWS (Soporta AWS Academy / Session Token)
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    # 3. Autenticarse en Amazon ECR
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    # 4. Construir y subir las imágenes usando tu ID de cuenta dinámico
+    - name: Build, Tag, and Push Images to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        # Frontend
+        docker build -t $ECR_REGISTRY/frontend-smartlogix:latest ./frontend-smartlogix
+        docker push $ECR_REGISTRY/frontend-smartlogix:latest
+        
+        # API Gateway
+        docker build -t $ECR_REGISTRY/api-gateway:latest ./api-gateway
+        docker push $ECR_REGISTRY/api-gateway:latest
+        
+        # Auth Service
+        docker build -t $ECR_REGISTRY/auth-service:latest ./auth-service
+        docker push $ECR_REGISTRY/auth-service:latest
+        
+        # BFF Service
+        docker build -t $ECR_REGISTRY/bff-service:latest ./bff-service
+        docker push $ECR_REGISTRY/bff-service:latest
+        
+        # Inventario Service
+        docker build -t $ECR_REGISTRY/inventario-service:latest ./inventario-service
+        docker push $ECR_REGISTRY/inventario-service:latest
+        
+        # Pedidos Service
+        docker build -t $ECR_REGISTRY/pedidos-service:latest ./pedidos-service
+        docker push $ECR_REGISTRY/pedidos-service:latest
+        
+        # Envios Service
+        docker build -t $ECR_REGISTRY/envios-service:latest ./envios-service
+        docker push $ECR_REGISTRY/envios-service:latest
+
+    # 5. Conectarse al clúster usando tu secret 'EKS_CLUSTER' (eks-ev3)
+    - name: Update Kubeconfig for EKS
+      run: |
+        aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER }}
+
+    # 6. Desplegar todo con un único comando en Kubernetes
+    - name: Deploy to Kubernetes
+      run: |
+        # Crear el namespace si no existe de manera segura
+        kubectl create namespace smartlogix --dry-run=client -o yaml | kubectl apply -f -
+        
+        # Aplicar tus 4 archivos en orden
+        kubectl apply -f k8s/smartlogix-config.yaml
+        kubectl apply -f k8s/backend-apps.yaml
+        kubectl apply -f k8s/api-gateway.yaml
+        kubectl apply -f k8s/frontend.yaml

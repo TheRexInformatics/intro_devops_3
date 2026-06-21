@@ -1,0 +1,26 @@
+# --- Secretos y Entorno ---
+.env
+.env.*
+
+# --- Java / Maven ---
+target/
+*.jar
+*.war
+*.ear
+*.class
+.mvn/wrapper/maven-wrapper.jar
+
+# --- IDEs (IntelliJ, VS Code) ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+
+# --- Sistema y Docker ---
+.DS_Store
+Thumbs.db
+desktop.ini
