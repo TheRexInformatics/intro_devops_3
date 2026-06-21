@@ -13,8 +13,8 @@ spec:
       labels:
         app: auth-service
       annotations:
-        kubernetes.io/change-cause: "Forzar actualizacion auth v2"
-        redeploy-date: "2026-06-20-v2"
+        kubernetes.io/change-cause: "Forzar actualizacion auth v3"
+        redeploy-date: "2026-06-20-v3"
     spec:
       containers:
       - name: auth-service
@@ -55,8 +55,8 @@ spec:
       labels:
         app: inventario-service
       annotations:
-        kubernetes.io/change-cause: "Forzar actualizacion inventario v2"
-        redeploy-date: "2026-06-20-v2"
+        kubernetes.io/change-cause: "Forzar actualizacion inventario v3"
+        redeploy-date: "2026-06-20-v3"
     spec:
       containers:
       - name: inventario-service
@@ -97,8 +97,8 @@ spec:
       labels:
         app: pedidos-service
       annotations:
-        kubernetes.io/change-cause: "Forzar actualizacion pedidos v2"
-        redeploy-date: "2026-06-20-v2"
+        kubernetes.io/change-cause: "Forzar actualizacion pedidos v3"
+        redeploy-date: "2026-06-20-v3"
     spec:
       containers:
       - name: pedidos-service
@@ -142,8 +142,8 @@ spec:
       labels:
         app: envios-service
       annotations:
-        kubernetes.io/change-cause: "Forzar actualizacion envios v2"
-        redeploy-date: "2026-06-20-v2"
+        kubernetes.io/change-cause: "Forzar actualizacion envios v3"
+        redeploy-date: "2026-06-20-v3"
     spec:
       containers:
       - name: envios-service
@@ -184,8 +184,8 @@ spec:
       labels:
         app: bff-service
       annotations:
-        kubernetes.io/change-cause: "Forzar actualizacion bff v2"
-        redeploy-date: "2026-06-20-v2"
+        kubernetes.io/change-cause: "Forzar actualizacion bff v3"
+        redeploy-date: "2026-06-20-v3"
     spec:
       containers:
       - name: bff-service

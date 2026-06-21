@@ -13,8 +13,8 @@ spec:
       labels:
         app: api-gateway
       annotations:
-        kubernetes.io/change-cause: "Forzar actualizacion gateway v2"
-        redeploy-date: "2026-06-20-v2"
+        kubernetes.io/change-cause: "Forzar actualizacion gateway v3"
+        redeploy-date: "2026-06-20-v3"
     spec:
       containers:
       - name: api-gateway
