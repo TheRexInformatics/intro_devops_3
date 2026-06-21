@@ -13,7 +13,7 @@ export default function CartDropdown({ userName }) {
     setError(null);
     try {
       for (const item of carrito) {
-        const response = await fetch('http://localhost:8080/api/pedidos', {
+        const response = await fetch('http://a0803d645b08e49bf8f94100fd5d5871-2145001747.us-east-1.elb.amazonaws.com:8080/api/pedidos', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
